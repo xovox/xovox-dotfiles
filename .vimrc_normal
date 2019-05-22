@@ -8,7 +8,7 @@
 " added shortcuts
 "	\c - toggle column hiliting	(def: off)
 "	\l - toggle line hiliting	(def: on)
-"	\n - toggle line numbers	(def: off)
+"	\n - toggle line numbers	(def: on)
 "	\p - toggle paste mode		(def: on)
 "
 " ##############################################################################
@@ -84,11 +84,11 @@ set statusline+=\       " put a single space at the end of the line
 " cursor column (toggle \c, def: off) & cursor line (toggle \l, def: on)
 " ##############################################################################
 
-hi CursorLine   cterm=NONE ctermbg=237
+hi CursorLine   cterm=NONE ctermbg=234
 nnoremap <leader>l :set cursorline!<cr>
 set cursorline
 
-hi CursorColumn cterm=NONE ctermbg=237
+hi CursorColumn cterm=NONE ctermbg=235
 nnoremap <leader>c :set cursorcolumn!<cr>
 set cursorcolumn
 
