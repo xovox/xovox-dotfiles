@@ -1,0 +1,57 @@
+##############################################################################
+# .screenrc created by duncan brown (http://duncanbrown.org)
+##############################################################################
+
+autodetach		on
+crlf			off
+deflogin		off
+hardcopy_append		on
+startup_message		off
+vbell			on
+defscrollback		5000
+silencewait		15
+nethack			on
+activity		"activity -> %n (%t) [%w:%s]~"
+bell			"%n%f %t *beep*"
+vbell_msg		" *BIP! BOP! BAM!* "
+shelltitle		""				# blank window title
+term			screen-256color			# force 256 terminal
+# zombie		k onerror			# only close if clean
+
+
+termcapinfo xterm 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
+##############################################################################
+# backticks are amazing, they can generate dynamic information in your status
+# lines!
+##############################################################################
+
+# check gmail every 10 minutes
+backtick 0 600 30 bash -c '[ -x $HOME/bin/screen/gmail ] && $HOME/bin/screen/gmail'
+
+# rotate through a world clock every 2 minutes
+backtick 1 120 30 bash -c '[ -x $HOME/bin/screen/world_clock ] && $HOME/bin/screen/world_clock'
+
+# check the weather every 15 minutes
+backtick 2 900 30 bash -c '[ -x $HOME/bin/screen/weather ] && $HOME/bin/screen/weather'
+
+
+##############################################################################
+# now we set the last two lines in our terminal to something useful & pretty
+#    (everything here can be found in the screen manpage under STRING ESCAPES)
+##############################################################################
+
+# bright green on a blue background which is how i used to rock qmodem pro & minicom
+# caption always "%{gb}:%{Bb}%-w%{Gb}%n %t%{Bb}%u%+w%=%{gb}:"
+# hardstatus alwayslastline "%{bg}:%{bG}%h%= %{bR}%0`%{-} %1` %Y%m%d %c%{bg}:"
+
+# the setup i used from 2005 until ~2010 when i trimmed it down a bit
+# caption always "%{rk}%-Lw%{-b}(%{+b}%n %t%{-b})%{-b}(%u)%{rk}%+Lw%="
+# hardstatus alwayslastline "%{kb}[%{+b}%h%{-b}]%= %{kg}[%{+b}%Y%m%d %c%{-b}]"
+
+# i like to use a dot to indicate my active window, you can change it to whatever
+#                                v change this
+#caption always "%{rk} %-w%{rk}%n.%t%u%{rk}%+w%= "
+#hardstatus alwayslastline "%{kG}%{.b}%{+b} %h%{-b}%= %{kg}%{+b}%Y%m%d %c%{-b} "
+
+caption always "%{Kk} %-w%{Gk}%n %t%{Kk}%u%+w%= "
+hardstatus alwayslastline "%{kG} %h%= %Y%m%d %c "
