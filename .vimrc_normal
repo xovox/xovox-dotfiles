@@ -1,0 +1,174 @@
+" ##############################################################################
+"
+" vimrc (c) 2015 duncan brown (http://duncanbrown.org)
+" 
+" this uses 256 color mode, here's a color chart:
+"	http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
+"
+" added shortcuts
+"	\c - toggle column hiliting	(def: off)
+"	\l - toggle line hiliting	(def: on)
+"	\n - toggle line numbers	(def: off)
+"	\p - toggle paste mode		(def: on)
+"
+" ##############################################################################
+
+" let's let vim be vim... and let vi be vi!
+set nocompatible
+
+" i require syntax hilighting
+syntax on
+
+" disable beeps
+set vb t_vb=
+set noerrorbells
+set visualbell
+
+
+" expand tabs into a visual clue 			
+"set list listchars=tab:^·,extends:>
+autocmd filetype html,xml set listchars-=tab:>.
+
+" set the window title
+set title
+
+" pasting into the terminal doesn't screw up padding/whitespace
+set foldmethod=marker
+
+" use egrep for grepping
+set grepprg=egrep\ -nH\ $*
+
+" tab completion in command mode
+set wildmenu
+set wildmode=list:longest,full
+
+" search: case-insensitive, search as i type & hilight it
+set smartcase
+set incsearch
+set hlsearch
+
+" keep more history & undolevels
+set history=1000
+set undolevels=1000
+
+" ############################################################################
+" standard foreground/background colors
+" ############################################################################
+
+hi NonText ctermfg=94 ctermbg=0
+
+" ############################################################################
+" build our status line, this uses 256 color mode
+" ############################################################################
+
+hi User1 ctermfg=94 ctermbg=234
+
+" blank out our status line and build a new one from scratch
+set statusline=
+set laststatus=2
+
+set statusline+=%1*     " set the status line color via User1
+set statusline+=\       " put a single space at the beginning of the line
+set statusline+=%F      " file path
+set statusline+=\ %y    " file type
+set statusline+=\       " just a little padding
+set statusline+=%m      " modified flag
+set statusline+=%r      " read only flag
+set statusline+=%=      " left/right separator
+set statusline+=%v:     " cursor column
+set statusline+=%l/%L   " cursor line/total lines
+set statusline+=\ %P    " percent through file
+set statusline+=\       " put a single space at the end of the line
+
+" ##############################################################################
+" cursor column (toggle \c, def: off) & cursor line (toggle \l, def: on)
+" ##############################################################################
+
+hi CursorLine   cterm=NONE ctermbg=237
+nnoremap <leader>l :set cursorline!<cr>
+set cursorline
+
+hi CursorColumn cterm=NONE ctermbg=237
+nnoremap <leader>c :set cursorcolumn!<cr>
+set cursorcolumn
+
+" ##############################################################################
+" line numbering (toggle \n, def: on)
+" ##############################################################################
+
+highlight LineNr ctermfg=94 ctermbg=234
+nnoremap <leader>n :set number!<cr>
+set number
+
+" ##############################################################################
+" set the default foreground & background colors
+" ##############################################################################
+
+highlight Normal ctermfg=253 ctermbg=232
+
+" ##############################################################################
+" paste mode (toggle \p, def: on)
+" ##############################################################################
+
+noremap <leader>p :set paste!<cr>:set paste?<cr>
+set paste
+
+
+noremap <leader>w :set wrap!<cr>:set wrap?<cr>
+set nowrap
+autocmd BufNewFile,BufRead .monitrc,monitrc,monit.conf set filetype=monitrc
+autocmd BufNewFile,BufRead */monit/conf.d/*rc,*/monitrc.d/*rc set filetype=monitrc
+autocmd BufNewFile,BufRead */monit/conf.d/*conf,*/monitrc.d/*conf set filetype=monitrc
+" Vim syntax file
+" Language: Monit control file
+" Maintainer: Sam Nguyen
+" Latest Revision: 6 August 2010
+
+if exists("b:current_syntax")
+    finish
+endif
+
+syn keyword monitCommand   set check include
+syn keyword monitSubject   directory fifo file filesystem host process system nextgroup=monitIdentifier skipwhite
+syn keyword monitKeyword   pidfile path nextgroup=monitFilePath skipwhite
+syn keyword monitKeyword   alert noalert system logfile 
+syn keyword monitKeyword   group failed port checksum start stop restart
+syn keyword monitKeyword   program daemon space usage
+syn keyword monitKeyword   timeout restarts within cycles
+syn keyword monitCondition if then else
+syn keyword monitKeyword   depends
+syn keyword monitChecksum  md5 sha1
+
+syn keyword monitKeyword   type nextgroup=monitSocket
+syn keyword monitSocket    tcp udp tcpssl
+
+syn keyword monitKeyword   proto protocol nextgroup=monitProtocol
+syn keyword monitProtocol  https ssl http ftp smtp pop ntp3 nntp imap clamav ssh dwp ldap2 ldap3 tns contained
+
+syn keyword monitKeyword   logfile syslog address enable disable pemfile allow read-only check init count pidfile statefile group start stop uid gid connection port portnumber unix unixsocket mail-format resource expect send mailserver every mode active passive manual depends host default request cpu mem totalmem children loadavg timestamp changed second seconds minute minutes hour hours day days inode pid ppid perm permission icmp process file directory filesystem size action unmonitor rdate rsync data invalid exec nonexist policy reminder instance eventqueue basedir slot slots system idfile gps radius secret target maxforward hostheader
+syn keyword monitNoise    is as are on only with within and has using use the sum program programs than for usage was but of
+
+syn keyword monitKeyword   url nextgroup=monitUrl
+syn match   monitUrl       "[a-z]\+://.\+"
+
+
+syn match   monitIdentifier "[a-zA-Z0-9\-\.]\+"
+syn match   monitFilePath   "[/a-zA-Z0-9-\.]\+"
+syn match   monitNumber  "\d\+"
+syn match   monitComment "#.*$"
+
+syn region  monitString  start='"' end='"'
+
+let b:current_syntax = "monitrc"
+
+hi def link monitCommand    Function
+hi def link monitComment    Comment
+hi def link monitCondition  Conditional
+hi def link monitFilePath   Identifier
+hi def link monitIdentifier Identifier
+hi def link monitKeyword    Statement
+hi def link monitNoise      Normal
+hi def link monitNumber     Number
+hi def link monitProtocol   Structure
+hi def link monitString     String
+hi def link monitSubject    Type
