@@ -1,0 +1,117 @@
+" ##############################################################################
+"
+" vimrc_inverted (c) 2015 duncan brown (http://duncanbrown.org)
+" 
+" this uses 256 color mode, here's a color chart:
+"	http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg
+"
+" i've set this up to look nice on my mac where i've inverted my colors, this
+" probably looks like hell on a standard display, hah.
+"
+" added shortcuts
+"	\c - toggle column hiliting	(def: off)
+"	\l - toggle line hiliting	(def: on)
+"	\n - toggle line numbers	(def: off)
+"	\p - toggle paste mode		(def: on)
+"
+" ##############################################################################
+
+" let's let vim be vim... and let vi be vi!
+set nocompatible
+
+" i require syntax hilighting
+syntax on
+
+" disable beeps
+set vb t_vb=
+set noerrorbells
+set visualbell
+
+
+" expand tabs into a visual clue 			
+"set list listchars=tab:^·,extends:>
+autocmd filetype html,xml set listchars-=tab:>.
+
+" set the window title
+set title
+
+" pasting into the terminal doesn't screw up padding/whitespace
+set foldmethod=marker
+
+" use egrep for grepping
+set grepprg=egrep\ -nH\ $*
+
+" tab completion in command mode
+set wildmenu
+set wildmode=list:longest,full
+
+" search: case-insensitive, search as i type & hilight it
+set smartcase
+set incsearch
+set hlsearch
+
+" keep more history & undolevels
+set history=1000
+set undolevels=1000
+
+" ############################################################################
+" standard foreground/background colors
+" ############################################################################
+
+" text area
+hi Normal ctermfg=237 ctermbg=255
+" no text
+hi NonText ctermfg=239 ctermbg=254
+
+" ##############################################################################
+" cursor column (toggle \c, def: off) & cursor line (toggle \l, def: on)
+" ##############################################################################
+
+hi CursorLine   cterm=NONE ctermbg=254 guibg=0
+nnoremap <leader>l :set cursorline!<cr>
+set cursorline
+
+hi CursorColumn cterm=NONE ctermbg=253 guibg=253
+nnoremap <leader>c :set cursorcolumn!<cr>
+
+" ##############################################################################
+" line numbering (toggle \n, def: on)
+" ##############################################################################
+
+highlight LineNr ctermfg=75 ctermbg=253
+nnoremap <leader>n :set number!<cr>
+set number
+
+" ##############################################################################
+" paste mode (toggle \p, def: on)
+" ##############################################################################
+
+noremap <leader>p :set paste!<cr>:set paste?<cr>
+set paste
+
+
+noremap <leader>w :set wrap!<cr>:set wrap?<cr>
+set nowrap
+
+" ############################################################################
+" build our statusline
+" ############################################################################
+
+hi User1 ctermfg=75 ctermbg=253
+
+" blank out our status line and build a new one from scratch
+set statusline=
+set laststatus=2
+
+set statusline+=%1*     " set the status line color via User1
+set statusline+=\       " put a single space at the beginning of the line
+set statusline+=%F      " file path
+set statusline+=\ %y    " file type
+set statusline+=\       " just a little padding
+set statusline+=%m      " modified flag
+set statusline+=%r      " read only flag
+set statusline+=%=      " left/right separator
+set statusline+=%v:     " cursor column
+set statusline+=%l/%L   " cursor line/total lines
+set statusline+=\ %P    " percent through file
+set statusline+=\       " put a single space at the end of the line
