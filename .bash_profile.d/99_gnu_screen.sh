@@ -17,23 +17,6 @@ screen_binary=$(which screen)
 
 screen_hostname=$(hostname -s)
 
-screen() {
-	# if our variable hasn't been set
-	if [ ! "$screen_executed" ]; then
-		# set our var before entering screen
-		export screen_executed=true
-		# set our window title to show we're in screen
-		echo -ne "\033]0;$(hostname -s) :: $($screen_binary -v)\007" 
-		# run the actual screen binary
-		$screen_binary $*
-		# if we've left screen, unset our var
-		export screen_executed=''
-	else
-		# if we're already in screen
-		echo "you're already in screen, fool!"
-	fi
-}
-
 gnu_screen_title() {
 	if [ "$1" ]; then
 		printf '\033k%s\033\\' "$1"
