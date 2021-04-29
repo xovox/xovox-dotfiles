@@ -1,0 +1,19 @@
+#!/bin/bash
+
+dotfiles="
+	.bash_profile
+	.bash_profile.d
+	.bashrc
+	.screenrc
+	.tmux.conf
+	.vim
+	.vimrc_inverted
+	.vimrc_normal
+	.vimrc_orig
+"
+
+for i in $dotfiles ; do
+	ln -svf "$(readlink -e $i)" "$HOME/$i"
+done
+
+ln -svf $HOME/.vim_normal $HOME/.vimrc
