@@ -16,4 +16,4 @@ for i in $dotfiles ; do
 	ln -svf "$(readlink -e $i)" "$HOME/$i"
 done
 
-ln -svf $HOME/.vim_normal $HOME/.vimrc
+ln -svf $HOME/.vimrc_normal $HOME/.vimrc
